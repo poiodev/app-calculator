@@ -1,92 +1,120 @@
 package com.example.app_calculator
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.app_calculator.ui.theme.AppcalculatorTheme
+import androidx.compose.ui.unit.sp
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            AppcalculatorTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CalculatorScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
+            CalculatorApp()
         }
-
-        // Prueba de la función sumar
-        val resultado = sumar(5.0, 3.0) // Ejemplo de prueba con 5 + 3
-        Log.d("Calculadora", "El resultado de la suma es: $resultado")
-    }
-
-    // 📌Función de suma dentro de la clase
-    fun sumar(a: Double, b: Double): Double {
-        return a + b
     }
 }
 
 @Composable
-fun CalculatorScreen(modifier: Modifier = Modifier) {
-    var text1 by remember { mutableStateOf(TextFieldValue("")) }
-    var text2 by remember { mutableStateOf(TextFieldValue("")) }
+fun CalculatorApp() {
+    var input by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
     Column(
-        modifier = modifier.padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Calculadora", style = MaterialTheme.typography.headlineSmall)
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        BasicTextField(
-            value = text1,
-            onValueChange = { text1 = it },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        BasicTextField(
-            value = text2,
-            onValueChange = { text2 = it },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Button(
-            onClick = {
-                val num1 = text1.text.toDoubleOrNull() ?: 0.0
-                val num2 = text2.text.toDoubleOrNull() ?: 0.0
-                result = (num1 + num2).toString()
-            }
+        // Espacio reservado para ver los números y resultado
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.3f) // Fija el tamaño para que no se tape
+                .padding(8.dp),
+            contentAlignment = Alignment.BottomEnd
         ) {
-            Text("Sumar")
+            Column {
+                Text(
+                    text = input,
+                    color = Color.White,
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = result,
+                    color = Color.Green,
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.weight(1f)) // Empuja el teclado hacia abajo
 
-        Text(text = "Resultado: $result", style = MaterialTheme.typography.bodyLarge)
-    }
-}
+        val buttons = listOf(
+            listOf("7", "8", "9", "/"),
+            listOf("4", "5", "6", "*"),
+            listOf("1", "2", "3", "-"),
+            listOf("C", "0", "=", "+")
+        )
 
-@Preview(showBackground = true)
-@Composable
-fun CalculatorPreview() {
-    AppcalculatorTheme {
-        CalculatorScreen()
+        for (row in buttons) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                for (btn in row) {
+                    Button(
+                        onClick = {
+                            when (btn) {
+                                "=" -> {
+                                    try {
+                                        val expression = ExpressionBuilder(input).build()
+                                        result = expression.evaluate().toString()
+                                    } catch (e: Exception) {
+                                        result = "Error"
+                                    }
+                                }
+                                "C" -> {
+                                    input = ""
+                                    result = ""
+                                }
+                                else -> {
+                                    input += btn
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .size(80.dp)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = btn, fontSize = 24.sp)
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 }
