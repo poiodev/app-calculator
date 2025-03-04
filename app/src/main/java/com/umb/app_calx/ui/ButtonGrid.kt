@@ -8,6 +8,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Refresh
+import com.umb.app_calx.theme.ButtonColor
+import com.umb.app_calx.theme.OrangeButtonColor
 
 @Composable
 fun ButtonGrid(input: String, onButtonClick: (String) -> Unit) {
@@ -24,8 +26,8 @@ fun ButtonGrid(input: String, onButtonClick: (String) -> Unit) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 for (btn in row) {
                     val buttonColor = when (btn) {
-                        "/", "*", "-", "+", "=" -> Color(0xFFFF9500)
-                        else -> Color(0xFF333333)
+                        "/", "*", "-", "+", "=" -> OrangeButtonColor
+                        else -> ButtonColor
                     }
 
                     val displayText = when (btn) {

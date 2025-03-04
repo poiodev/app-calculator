@@ -5,7 +5,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -25,7 +24,7 @@ fun Display(input: String, result: String) {
         Column {
             Text(
                 text = input,
-                color = TextColor,  // Texto de entrada en negro
+                color = TextColor,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.End,
@@ -33,7 +32,7 @@ fun Display(input: String, result: String) {
             )
             Text(
                 text = result,
-                color = ResultColor,  // Texto de resultado en naranja
+                color = ResultColor,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.End,

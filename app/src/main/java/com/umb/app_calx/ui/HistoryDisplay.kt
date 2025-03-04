@@ -20,7 +20,7 @@ fun HistoryDisplay(history: List<String>) {
         items(history) { entry ->
             Text(
                 text = entry,
-                color = Color.Black,  // Color del texto del historial
+                color = Color.Black,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )

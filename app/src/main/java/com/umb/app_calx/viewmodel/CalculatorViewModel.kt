@@ -28,21 +28,19 @@ class CalculatorViewModel : ViewModel() {
     private fun handleInput(value: String) {
         if (isResultDisplayed) {
             if (value in listOf("+", "-", "*", "/")) {
-                // Si el usuario presiona un operador después del resultado, seguir operando
-                _uiState.value = _uiState.value.copy(input = _uiState.value.result + value, result = "")
+                _uiState.value =
+                    _uiState.value.copy(input = _uiState.value.result + value, result = "")
             } else {
-                // Si presiona un número, iniciar nueva operación
                 _uiState.value = _uiState.value.copy(input = value, result = "")
             }
             isResultDisplayed = false
         } else {
-            // Continuar escribiendo normalmente
             _uiState.value = _uiState.value.copy(input = _uiState.value.input + value)
         }
     }
 
     private fun clearInput() {
-        _uiState.value = _uiState.value.copy(input = "", result = "")  // Solo limpiar input y resultado, no el historial
+        _uiState.value = _uiState.value.copy(input = "", result = "")
         isResultDisplayed = false
     }
 
@@ -66,9 +64,5 @@ class CalculatorViewModel : ViewModel() {
             _uiState.value = _uiState.value.copy(result = "Error")
             isResultDisplayed = true
         }
-    }
-
-    fun clearHistory() {
-        _uiState.value = _uiState.value.copy(history = emptyList())
     }
 }

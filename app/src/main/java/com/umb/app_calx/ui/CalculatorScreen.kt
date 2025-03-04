@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.umb.app_calx.viewmodel.CalculatorViewModel
 
@@ -27,7 +26,6 @@ fun CalculatorScreen(viewModel: CalculatorViewModel) {
             onButtonClick = { button -> viewModel.onButtonClick(button) }
         )
 
-        // Menú desplegable para el historial
         Button(onClick = { showHistory = !showHistory }) {
             Text(text = if (showHistory) "Ocultar Historial" else "Mostrar Historial")
         }

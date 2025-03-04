@@ -5,8 +5,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-val DarkGray = Color(0xFF000000)  // Fondo negro
-val LightYellow = Color(0xFFFFFF00)  // Texto amarillo
+val DarkGray = Color(0xFF000000)
+val LightYellow = Color(0xFFFFFF00)
 
 @Composable
 fun CalculatorTheme(content: @Composable () -> Unit) {
